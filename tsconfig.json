@@ -15,6 +15,7 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "baseUrl": ".",
+    "keyofStringsOnly": true,
     "paths": {
       "@/*": ["src/*"]
     }
