@@ -1,23 +1,35 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import { setupCounter } from './counter'
+import { Watcher, walk } from '@/reactivity/vue2'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+function createVue2ReactivityApp() {
+  const data = { a: 1, b: 2 }
+  const data2 = { msg: 'sad' }
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+  walk(data)
+  walk(data2)
+
+  let sum = 0
+  const sumWatcher = new Watcher(() => {
+    sum = data.a + data.b
+  })
+
+  let msg = ''
+  const msgWatcher = new Watcher(() => {
+    msg = `hello ${data2.msg} world!`
+  })
+
+  console.log(`sum: ${sum}`) // 3
+
+  data.a = 10
+
+  console.log(`sum: ${sum}`) //  12
+
+  data.b = 5
+
+  console.log(`sum: ${sum}`) // 15
+
+  data2.msg = 'happy'
+
+  console.log(msg) // hello happy world!
+}
+
+createVue2ReactivityApp()
