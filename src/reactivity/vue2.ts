@@ -1,6 +1,8 @@
+type WatcherGetter = () => void
+
 class Dep {
-  subscribers: any[]
-  public static target: any
+  subscribers: WatcherGetter[]
+  public static target: WatcherGetter | null
 
   constructor() {
     this.subscribers = []
@@ -47,8 +49,9 @@ export function walk(data: any) {
 }
 
 export class Watcher {
-  getter: any
-  constructor(getter: any) {
+  getter: WatcherGetter
+
+  constructor(getter: WatcherGetter) {
     this.getter = getter
     this.get()
   }
